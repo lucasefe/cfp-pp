@@ -39,7 +39,7 @@ def with_workbook(file, index)
 end
 
 def simple_format(text)
-  text.gsub('\n', '<br/>')
+  text.gsub("\n", '<br/>')
 end
 
 password = if File.exists?("gpass")
