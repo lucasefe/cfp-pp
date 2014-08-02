@@ -4,12 +4,20 @@
   <title>CFP</title>
     <style>
       body { 
-        font-family: Helvetica; 
-      
+        font-family: Monaco, monospace; 
       }
 
       #wrapper {
         width: 960px;
+        margin: auto;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
