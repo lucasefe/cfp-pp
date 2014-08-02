@@ -5,10 +5,28 @@ require 'highline/import'
 require 'mote'
 
 class Entry
-  attr_accessor :id, :title, :author, :bio, :abstract, :why
+  attr_accessor :id, :title, :author, :bio, :abstract, :why, :github, :twitter
 
   def initialize(attrs = {})
     attrs.each { |key, value| send("#{key}=", value) }
+  end
+
+  def twitter_url
+    return unless twitter
+    if twitter =~/http:/
+      twitter
+    else
+      "http://twitter.com/#{twitter}"
+    end
+  end
+
+  def github_url
+    return unless github
+    if github =~/http:/
+      github 
+    else
+      "http://github.com/#{github}"
+    end
   end
 
 end
@@ -44,7 +62,9 @@ with_workbook(file, 0) do |row|
                        title: row[8],
                        bio: row[6],
                        abstract: row[9],
-                       why: row[10])
+                       why: row[10], 
+                       twitter: row[4], 
+                       github: row[5])
 end
 
 with_workbook(file, 1) do |row|
@@ -54,7 +74,9 @@ with_workbook(file, 1) do |row|
                        title: row[9],
                        bio: row[7],
                        abstract: row[11],
-                       why: row[12])
+                       why: row[12],
+                       twitter: row[4], 
+                       github: row[5])
 end
 
 template = Mote.parse(File.read("./cfp.mote"), self, [:entries])

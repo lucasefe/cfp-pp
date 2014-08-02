@@ -13,10 +13,12 @@
       }
 
       a {
+        color: green;
         text-decoration: none;
       }
 
       a:hover {
+        color: lightgreen;
         text-decoration: underline;
       }
     </style>
@@ -34,15 +36,30 @@
       </ol>
 
       % entries.each do |entry|
-      <span id="cfp_{{entry.id}}"></span>
-      <h2>{{entry.id}} - {{entry.title}}</h2>
-      <h3>by {{entry.author}}</h3>
-      <h3>Biography</h3>
-      <p>{{simple_format(entry.bio)}}</p>
-      <h3>Abstract</h3>
-      <p>{{simple_format(entry.abstract)}}
-      <h3>Why?</h3>
-      <p>{{simple_format(entry.why)}}</p>
+      <div class='entry' id="cfp_{{entry.id}}">
+        <h2>{{entry.id}} - {{entry.title}}</h2>
+        
+        <h3>
+          by {{entry.author}}
+          | <a href="{{entry.github_url}}">github</a>
+          | <a href="{{entry.twitter_url}}">twitter</a>
+        </h3>
+
+        <h3>Biography</h3>
+        <p>
+          {{simple_format(entry.bio)}}
+        </p>
+        
+        <h3>Abstract</h3>
+        <p>
+          {{simple_format(entry.abstract)}}
+        </p>
+        
+        <h3>Why?</h3>
+        <p>
+          {{simple_format(entry.why)}}
+        </p>
+      </div>
       % end
     </div>
   </body>
