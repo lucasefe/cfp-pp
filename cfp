@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+require "google_drive"
+require 'highline/import'
+require 'mote'
+
+class Entry
+  attr_accessor :id, :title, :author, :bio, :abstract, :why
+
+  def initialize(attrs = {})
+    attrs.each { |key, value| send("#{key}=", value) }
+  end
+
+end
+
+def with_workbook(file, index)
+  ws = file.worksheets[index]
+  ws.rows[1..-1].each do |row|
+    yield row
+  end
+end
+
+def simple_format(text)
+  text.gsub('\n', '<br/>')
+end
+
+password = if File.exists?("gpass")
+  File.read("gpass")
+else
+  ask("Enter your password: ") { |q| q.echo = "x" }
+end
+
+session = GoogleDrive.login("lucasefe@gmail.com", password)
+doc_id = "13QBUjc4Oh-E5-th5JH4hitsQ6LX4xN7U0iugo4D1Rnw"
+file = session.spreadsheet_by_key(doc_id)
+
+entries = []
+id = 0
+
+with_workbook(file, 0) do |row|
+  id += 1
+  entries << Entry.new(id: id,
+                       author: row[1],
+                       title: row[8],
+                       bio: row[6],
+                       abstract: row[9],
+                       why: row[10])
+end
+
+with_workbook(file, 1) do |row|
+  id += 1
+  entries << Entry.new(id: id,
+                       author: row[1],
+                       title: row[9],
+                       bio: row[7],
+                       abstract: row[11],
+                       why: row[12])
+end
+
+template = Mote.parse(File.read("./cfp.mote"), self, [:entries])
+File.open("./cfp.html", "w") do |output|
+  output.write template.call(entries: entries)
+end

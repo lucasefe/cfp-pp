@@ -1,0 +1,43 @@
+ <!DOCTYPE html lang='es'>
+ <html>
+ <head>
+  <title>CFP</title>
+    <style>
+      body { 
+        font-family: Helvetica; 
+      
+      }
+
+      #wrapper {
+        width: 960px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='wrapper'>
+      <h1>CFP</h1>
+
+      <ol>
+        % entries.each do |entry|
+        <li>
+          <a href="#cfp_{{entry.id}}">{{entry.title}}</a>
+        </li>
+        % end
+      </ol>
+
+      % entries.each do |entry|
+      <span id="cfp_{{entry.id}}"></span>
+      <h2>{{entry.id}} - {{entry.title}}</h2>
+      <h3>by {{entry.author}}</h3>
+      <h3>Biography</h3>
+      <p>{{simple_format(entry.bio)}}</p>
+      <h3>Abstract</h3>
+      <p>{{simple_format(entry.abstract)}}
+      <h3>Why?</h3>
+      <p>{{simple_format(entry.why)}}</p>
+      % end
+    </div>
+  </body>
+</html>
+
+  
