@@ -79,6 +79,8 @@ with_workbook(file, 1) do |row|
                        github: row[5])
 end
 
+STDOUT.puts "Wrote #{id} entries to file. "
+
 template = Mote.parse(File.read("./cfp.mote"), self, [:entries])
 File.open("./cfp.html", "w") do |output|
   output.write template.call(entries: entries)
